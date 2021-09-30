@@ -81,6 +81,34 @@ func (c *Client) CreateConnection(connection Connection) (*Connection, error) {
 	return &apiResponse.Connection, nil
 }
 
+// UpdateConnection - Create new connection. 
+func (c *Client) UpdateConnection(connectionId string, connection Connection) (*Connection, error) {
+	host := c.WorkspaceHost
+	rb, err := json.Marshal(connection)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%sconnections/%s", host.Url, connectionId)
+	req, err := http.NewRequest("PUT", url, strings.NewReader(string(rb)))
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := host.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return &apiResponse.Connection, nil
+}
+
 // DeleteConnection - Delete existing connection
 func (c *Client) DeleteConnection(connectionId string) error {
 	host := c.WorkspaceHost

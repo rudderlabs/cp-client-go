@@ -81,6 +81,34 @@ func (c *Client) CreateDestination(destination Destination) (*Destination, error
 	return &apiResponse.Destination, nil
 }
 
+// UpdateDestination - Create new destination. 
+func (c *Client) UpdateDestination(destinationId string, destination Destination) (*Destination, error) {
+	host := c.WorkspaceHost
+	rb, err := json.Marshal(destination)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%sdestinations/%s", host.Url, destinationId)
+	req, err := http.NewRequest("PUT", url, strings.NewReader(string(rb)))
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := host.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return &apiResponse.Destination, nil
+}
+
 // DeleteDestination - Delete existing destination
 func (c *Client) DeleteDestination(destinationId string) error {
 	host := c.WorkspaceHost

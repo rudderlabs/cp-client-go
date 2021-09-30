@@ -81,6 +81,34 @@ func (c *Client) CreateSource(source Source) (*Source, error) {
 	return &apiResponse.Source, nil
 }
 
+// UpdateSource - Create new source. 
+func (c *Client) UpdateSource(sourceId string, source Source) (*Source, error) {
+	host := c.WorkspaceHost
+	rb, err := json.Marshal(source)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%ssources/%s", host.Url, sourceId)
+	req, err := http.NewRequest("PUT", url, strings.NewReader(string(rb)))
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := host.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return &apiResponse.Source, nil
+}
+
 // DeleteSource - Delete existing source
 func (c *Client) DeleteSource(sourceId string) error {
 	host := c.WorkspaceHost
