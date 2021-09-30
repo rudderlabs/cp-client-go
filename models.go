@@ -50,10 +50,11 @@ type Destination struct {
         Config        DestinationConfig                        `json:"config"`
 }
 
+// Connection between a source and a destinations -
 type Connection struct {
         ID            string                                   `json:"id"`
-	    SourceID       string                                  `json:"sourceId"`
-	    DestinationID  string                                  `json:"destinationId"`
+        SourceID      string                                   `json:"sourceId"`
+        DestinationID string                                   `json:"destinationId"`
 }
 
 type SourceConfig struct {
@@ -61,11 +62,21 @@ type SourceConfig struct {
 }
 
 type DestinationConfig struct {
-	    ID            int                                      `json:"id"`
+        ID            int                                      `json:"id"`
 }
 
 type SourceDefinitionConfig struct {
 }
 
 type DestinationDefinitionConfig struct {
+}
+
+// API responses we handle are unmarshalled into this object first -
+// Only one field is usually present in a typical API call.
+type ApiResponseWrapper struct {
+	Source        Source                                   `json:"source,omitempty"`
+	Sources       []Source                                 `json:"sources,omitempty"`
+	Destination   Destination                              `json:"destination,omitempty"`
+	Destinations  []Destination                            `json:"destinations,omitempty"`
+	Connection    Connection                               `json:"connection,omitempty"`
 }

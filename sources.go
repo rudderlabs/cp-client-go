@@ -53,10 +53,6 @@ func (c *Client) GetSource(sourceID string) (*Source, error) {
 	return &source, nil
 }
 
-type srcResultBodyType struct{
-	Source Source `json:"source"`
-}
-
 // CreateSource - Create new source
 func (c *Client) CreateSource(source Source) (*Source, error) {
 	host := c.WorkspaceHost
@@ -76,13 +72,13 @@ func (c *Client) CreateSource(source Source) (*Source, error) {
 		return nil, err
 	}
 
-	resultBody := srcResultBodyType{}
-	err = json.Unmarshal(body, &resultBody)
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resultBody.Source, nil
+	return &apiResponse.Source, nil
 }
 
 // DeleteSource - Delete existing source

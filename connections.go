@@ -53,10 +53,6 @@ func (c *Client) GetConnection(connectionID string) (*Connection, error) {
 	return &connection, nil
 }
 
-type cnxnResultBodyType struct{
-	Connection Connection `json:"connection"`
-}
-
 // CreateConnection - Create new connection. 
 func (c *Client) CreateConnection(connection Connection) (*Connection, error) {
 	host := c.WorkspaceHost
@@ -76,13 +72,13 @@ func (c *Client) CreateConnection(connection Connection) (*Connection, error) {
 		return nil, err
 	}
 
-	resultBody := cnxnResultBodyType{}
-	err = json.Unmarshal(body, &resultBody)
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resultBody.Connection, nil
+	return &apiResponse.Connection, nil
 }
 
 // DeleteConnection - Delete existing connection

@@ -53,10 +53,6 @@ func (c *Client) GetDestination(destinationID string) (*Destination, error) {
 	return &destination, nil
 }
 
-type destResultBodyType struct{
-	Destination Destination `json:"destination"`
-}
-
 // CreateDestination - Create new destination
 func (c *Client) CreateDestination(destination Destination) (*Destination, error) {
 	host := c.WorkspaceHost
@@ -76,13 +72,13 @@ func (c *Client) CreateDestination(destination Destination) (*Destination, error
 		return nil, err
 	}
 
-	resultBody := destResultBodyType{}
-	err = json.Unmarshal(body, &resultBody)
+	apiResponse := ApiResponseWrapper{}
+	err = json.Unmarshal(body, &apiResponse)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resultBody.Destination, nil
+	return &apiResponse.Destination, nil
 }
 
 // DeleteDestination - Delete existing destination
