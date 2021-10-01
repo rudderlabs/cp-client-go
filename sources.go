@@ -30,6 +30,38 @@ func (c *Client) GetSources() ([]Source, error) {
 	return sources, nil
 }
 
+// FilterSources - Returns list of sources, filtered by search params.
+func (c *Client) FilterSources(tYpe string, name string) ([]Source, error) {
+    host := c.WorkspaceHost
+    req, err := http.NewRequest("GET", fmt.Sprintf("%s/sources", host.Url), nil)
+    if err != nil {
+        return nil, err
+    }
+
+    // Add type and name ids from query.
+    q := req.URL.Query()
+    if (tYpe == ""){
+        q.Add("type", tYpe)
+    }
+    if (name == ""){
+        q.Add("name", name)
+    }
+    req.URL.RawQuery = q.Encode()
+
+    body, err := host.doRequest(req)
+    if err != nil {
+        return nil, err
+    }
+
+    sources := []Source{}
+    err = json.Unmarshal(body, &sources)
+    if err != nil {
+        return nil, err
+    }
+
+    return sources, nil
+}
+
 // GetSource - Returns source
 func (c *Client) GetSource(sourceID string) (*Source, error) {
 	host := c.WorkspaceHost

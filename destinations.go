@@ -30,6 +30,38 @@ func (c *Client) GetDestinations() ([]Destination, error) {
 	return destinations, nil
 }
 
+// FilterDestinations - Returns list of destinations, filtered by search params.
+func (c *Client) FilterDestinations(tYpe string, name string) ([]Destination, error) {
+    host := c.WorkspaceHost
+    req, err := http.NewRequest("GET", fmt.Sprintf("%s/destinations", host.Url), nil)
+    if err != nil {
+        return nil, err
+    }
+
+    // Add type and name ids from query.
+    q := req.URL.Query()
+    if (tYpe == ""){
+        q.Add("type", tYpe)
+    }
+    if (name == ""){
+        q.Add("name", name)
+    }
+    req.URL.RawQuery = q.Encode()
+
+    body, err := host.doRequest(req)
+    if err != nil {
+        return nil, err
+    }
+
+    destinations := []Destination{}
+    err = json.Unmarshal(body, &destinations)
+    if err != nil {
+        return nil, err
+    }
+
+    return destinations, nil
+}
+
 // GetDestination - Returns destination
 func (c *Client) GetDestination(destinationID string) (*Destination, error) {
 	host := c.WorkspaceHost
