@@ -19,7 +19,7 @@ const (
 type Client struct {
 	HTTPClient    *http.Client
 	WorkspaceHost HostAccessStruct
-	CatalogHost   HostAccessStruct
+	SchemaHost    HostAccessStruct
 }
 
 // HostAccessStruct -
@@ -31,7 +31,7 @@ type HostAccessStruct struct {
 }
 
 // NewClient -
-func NewClient(workspaceHost, workspaceToken, catalogHost, catalogToken *string) (*Client, error) {
+func NewClient(workspaceHost, workspaceToken, schemaHost, schemaToken *string) (*Client, error) {
 	httpClient := &http.Client{Timeout: 10 * time.Second}
 	c := Client{
 		HTTPClient: httpClient,
@@ -41,10 +41,10 @@ func NewClient(workspaceHost, workspaceToken, catalogHost, catalogToken *string)
 			Token:      *workspaceToken,
 			AuthKind:   TokenAuth,
 		},
-		CatalogHost: HostAccessStruct{
+		SchemaHost: HostAccessStruct{
 			HTTPClient: httpClient,
-			Url:        *catalogHost,
-			Token:      *catalogToken,
+			Url:        *schemaHost,
+			Token:      *schemaToken,
 			AuthKind:   BasicAuth,
 		},
 	}
