@@ -8,7 +8,7 @@ import (
 
 // Source Definition -
 type SourceDefinition struct {
-        ID            types.String                             `json:"id"`
+        ID            types.String                             `json:"id,omitempty"`
         Name          types.String                             `json:"name"`
         Category      types.String                             `json:"category"`
         CreatedAt     time.Time                                `json:"createdAt"`
@@ -19,7 +19,7 @@ type SourceDefinition struct {
 
 // Destination Definition -
 type DestinationDefinition struct {
-        ID            types.String                             `json:"id"`
+        ID            types.String                             `json:"id,omitempty"`
         Name          types.String                             `json:"name"`
         Category      types.String                             `json:"category"`
         CreatedAt     time.Time                                `json:"createdAt"`
@@ -30,7 +30,7 @@ type DestinationDefinition struct {
 
 // Sources -
 type Source struct {
-        ID            string                                   `json:"id"`
+        ID            string                                   `json:"id,omitempty"`
         Name          string                                   `json:"name"`
         Type          string                                   `json:"type"`
         CreatedAt     time.Time                                `json:"createdAt"`
@@ -41,7 +41,7 @@ type Source struct {
 
 // Destinations -
 type Destination struct {
-        ID            string                                   `json:"id"`
+        ID            string                                   `json:"id,omitempty"`
         Name          string                                   `json:"name"`
         Type          string                                   `json:"type,omitempty"`
         CreatedAt     time.Time                                `json:"createdAt"`
@@ -52,17 +52,17 @@ type Destination struct {
 
 // Connection between a source and a destinations -
 type Connection struct {
-        ID            string                                   `json:"id"`
-        SourceID      string                                   `json:"sourceId"`
-        DestinationID string                                   `json:"destinationId"`
+        ID            string                                   `json:"id,omitempty"`
+        SourceID      string                                   `json:"sourceId,omitempty"`
+        DestinationID string                                   `json:"destinationId,omitempty"`
 }
 
 type SourceConfig struct {
-        ID            int                                      `json:"id"`
+        ID            int                                      `json:"id,omitempty"`
 }
 
 type DestinationConfig struct {
-        ID            int                                      `json:"id"`
+        ID            int                                      `json:"id,omitempty"`
 }
 
 type SourceDefinitionConfig struct {

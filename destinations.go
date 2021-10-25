@@ -93,7 +93,7 @@ func (c *Client) CreateDestination(destination Destination) (*Destination, error
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%sdestinations/", host.Url)
+	url := fmt.Sprintf("%s/destinations", host.Url)
 	req, err := http.NewRequest("POST", url, strings.NewReader(string(rb)))
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (c *Client) CreateDestination(destination Destination) (*Destination, error
 	return &apiResponse.Destination, nil
 }
 
-// UpdateDestination - Create new destination. 
+// UpdateDestination - Update new destination. 
 func (c *Client) UpdateDestination(destinationId string, destination Destination) (*Destination, error) {
 	host := c.WorkspaceHost
 	rb, err := json.Marshal(destination)
@@ -121,7 +121,7 @@ func (c *Client) UpdateDestination(destinationId string, destination Destination
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%sdestinations/%s", host.Url, destinationId)
+	url := fmt.Sprintf("%s/destinations/%s", host.Url, destinationId)
 	req, err := http.NewRequest("PUT", url, strings.NewReader(string(rb)))
 	if err != nil {
 		return nil, err

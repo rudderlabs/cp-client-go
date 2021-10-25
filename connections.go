@@ -3,7 +3,7 @@ package rudderclient
 import (
     "encoding/json"
     "fmt"
-    // "log"
+    "log"
     "net/http"
     "strings"
 )
@@ -93,14 +93,17 @@ func (c *Client) CreateConnection(connection Connection) (*Connection, error) {
         return nil, err
     }
 
-    url := fmt.Sprintf("%sconnections/", host.Url)
-    req, err := http.NewRequest("POST", url, strings.NewReader(string(rb)))
+    url := fmt.Sprintf("%s/connections/", host.Url)
+    bodySent := string(rb)
+    req, err := http.NewRequest("POST", url, strings.NewReader(bodySent))
     if err != nil {
+	log.Println("Connection createrequest creation failed URL=", url, "body=", bodySent)
         return nil, err
     }
 
     body, err := host.doRequest(req)
     if err != nil {
+	log.Println("Connection creation failed URL=", url, "body=", bodySent)
         return nil, err
     }
 
@@ -121,7 +124,7 @@ func (c *Client) UpdateConnection(connectionId string, connection Connection) (*
         return nil, err
     }
 
-    url := fmt.Sprintf("%sconnections/%s", host.Url, connectionId)
+    url := fmt.Sprintf("%s/connections/%s", host.Url, connectionId)
     req, err := http.NewRequest("PUT", url, strings.NewReader(string(rb)))
     if err != nil {
         return nil, err
