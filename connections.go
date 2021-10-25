@@ -65,8 +65,9 @@ func (c *Client) FilterConnections(sourceId string, destinationId string) ([]Con
 // GetConnection - Returns connection
 func (c *Client) GetConnection(connectionID string) (*Connection, error) {
     host := c.WorkspaceHost
+    url := fmt.Sprintf("%s/connections/%s", host.Url, connectionID)
 
-    req, err := http.NewRequest("GET", fmt.Sprintf("%s/connections/%s", host.Url, connectionID), nil)
+    req, err := http.NewRequest("GET", url, nil)
     if err != nil {
         return nil, err
     }
@@ -76,12 +77,13 @@ func (c *Client) GetConnection(connectionID string) (*Connection, error) {
         return nil, err
     }
 
-    connection := Connection{}
-    err = json.Unmarshal(body, &connection)
+    apiResponse := ApiResponseWrapper{}
+    err = json.Unmarshal(body, &apiResponse)
     if err != nil {
         return nil, err
     }
 
+    connection := apiResponse.Connection
     return &connection, nil
 }
 

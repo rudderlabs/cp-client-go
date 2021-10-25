@@ -78,12 +78,13 @@ func (c *Client) GetSource(sourceID string) (*Source, error) {
         return nil, err
     }
 
-    source := Source{}
-    err = json.Unmarshal(body, &source)
+    apiResponse := ApiResponseWrapper{}
+    err = json.Unmarshal(body, &apiResponse)
     if err != nil {
         return nil, err
     }
 
+    source := apiResponse.Source 
     return &source, nil
 }
 
