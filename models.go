@@ -6,6 +6,10 @@ import (
         "github.com/hashicorp/terraform-plugin-framework/types"
 )
 
+// Each config property can be an arbitrary struct. Using interface{} for the same.
+type SingleConfigPropertyValue interface {
+}
+
 // Source Definition -
 type SourceDefinition struct {
         ID            types.String                             `json:"id,omitempty"`
@@ -14,7 +18,7 @@ type SourceDefinition struct {
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
-        Config        SourceDefinitionConfig                   `json:"config"`
+        Config        map[string](SingleConfigPropertyValue)   `json:"config"`
 }
 
 // Destination Definition -
@@ -25,7 +29,7 @@ type DestinationDefinition struct {
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
-        Config        DestinationDefinitionConfig              `json:"config"`
+        Config        map[string](SingleConfigPropertyValue)   `json:"config"`
 }
 
 // Sources -
@@ -36,7 +40,7 @@ type Source struct {
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
-        Config        SourceConfig                             `json:"config"`
+        Config        map[string](SingleConfigPropertyValue)   `json:"config"`
 }
 
 // Destinations -
@@ -47,7 +51,7 @@ type Destination struct {
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
-        Config        DestinationConfig                        `json:"config"`
+        Config        map[string](SingleConfigPropertyValue)   `json:"config"`
 }
 
 // Connection between a source and a destinations -
@@ -55,20 +59,6 @@ type Connection struct {
         ID            string                                   `json:"id,omitempty"`
         SourceID      string                                   `json:"sourceId,omitempty"`
         DestinationID string                                   `json:"destinationId,omitempty"`
-}
-
-type SourceConfig struct {
-        ID            int                                      `json:"id,omitempty"`
-}
-
-type DestinationConfig struct {
-        ID            int                                      `json:"id,omitempty"`
-}
-
-type SourceDefinitionConfig struct {
-}
-
-type DestinationDefinitionConfig struct {
 }
 
 // API responses we handle are unmarshalled into this object first -
