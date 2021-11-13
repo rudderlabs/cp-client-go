@@ -62,19 +62,19 @@ func (ha *HostAccessStruct) doRequest(req *http.Request) ([]byte, error) {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
 
-	res, err := ha.HTTPClient.Do(req)
+	response, err := ha.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
-
-	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
+	statusOK := response.StatusCode >= 200 && response.StatusCode < 300
+	if !statusOK {
+		return nil, fmt.Errorf("status: %d, body: %s", response.StatusCode, body)
 	}
 
 	return body, err
