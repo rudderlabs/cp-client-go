@@ -155,7 +155,7 @@ func (c *Client) UpdateDestination(destinationId string, destination Destination
 func (c *Client) DeleteDestination(destinationId string) error {
         host := c.WorkspaceHost
 
-        req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/destinations/%d", host.Url, destinationId), nil)
+        req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/destinations/%s", host.Url, destinationId), nil)
         if err != nil {
                 return err
         }

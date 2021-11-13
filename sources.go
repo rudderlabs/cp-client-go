@@ -154,7 +154,7 @@ func (c *Client) UpdateSource(sourceId string, source Source) (*Source, error) {
 func (c *Client) DeleteSource(sourceId string) error {
     host := c.WorkspaceHost
 
-    req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/sources/%d", host.Url, sourceId), nil)
+    req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/sources/%s", host.Url, sourceId), nil)
     if err != nil {
         return err
     }

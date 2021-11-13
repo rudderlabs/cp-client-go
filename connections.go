@@ -150,7 +150,7 @@ func (c *Client) UpdateConnection(connectionId string, connection Connection) (*
 func (c *Client) DeleteConnection(connectionId string) error {
     host := c.WorkspaceHost
 
-    req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/connections/%d", host.Url, connectionId), nil)
+    req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/connections/%s", host.Url, connectionId), nil)
     if err != nil {
         return err
     }
