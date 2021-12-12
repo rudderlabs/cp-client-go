@@ -11,7 +11,8 @@ import (
 // GetDestinations - Returns list of destinations.
 func (c *Client) GetDestinations() ([]Destination, error) {
         host := c.WorkspaceHost
-        req, err := http.NewRequest("GET", fmt.Sprintf("%s/destinations", host.Url), nil)
+	url := fmt.Sprintf("%s/destinations", host.Url)
+        req, err := http.NewRequest("GET", url, nil)
         if err != nil {
                 return nil, err
         }
@@ -24,6 +25,7 @@ func (c *Client) GetDestinations() ([]Destination, error) {
         destinations := []Destination{}
         err = json.Unmarshal(body, &destinations)
         if err != nil {
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
                 return nil, err
         }
 
@@ -32,34 +34,36 @@ func (c *Client) GetDestinations() ([]Destination, error) {
 
 // FilterDestinations - Returns list of destinations, filtered by search params.
 func (c *Client) FilterDestinations(tYpe string, name string) ([]Destination, error) {
-    host := c.WorkspaceHost
-    req, err := http.NewRequest("GET", fmt.Sprintf("%s/destinations", host.Url), nil)
-    if err != nil {
-        return nil, err
-    }
+        host := c.WorkspaceHost
+        url := fmt.Sprintf("%s/destinations", host.Url)
+        req, err := http.NewRequest("GET", url, nil)
+        if err != nil {
+                return nil, err
+        }
 
-    // Add type and name ids from query.
-    q := req.URL.Query()
-    if (tYpe == ""){
-        q.Add("type", tYpe)
-    }
-    if (name == ""){
-        q.Add("name", name)
-    }
-    req.URL.RawQuery = q.Encode()
+        // Add type and name ids from query.
+        q := req.URL.Query()
+        if (tYpe == ""){
+                q.Add("type", tYpe)
+        }
+        if (name == ""){
+                q.Add("name", name)
+        }
+        req.URL.RawQuery = q.Encode()
 
-    body, err := host.doRequest(req)
-    if err != nil {
-        return nil, err
-    }
+        body, err := host.doRequest(req)
+        if err != nil {
+                return nil, err
+        }
 
-    destinations := []Destination{}
-    err = json.Unmarshal(body, &destinations)
-    if err != nil {
-        return nil, err
-    }
+        destinations := []Destination{}
+        err = json.Unmarshal(body, &destinations)
+        if err != nil {
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                return nil, err
+        }
 
-    return destinations, nil
+        return destinations, nil
 }
 
 // GetDestination - Returns destination
@@ -80,6 +84,7 @@ func (c *Client) GetDestination(destinationID string) (*Destination, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
                 return nil, err
         }
 
@@ -113,6 +118,7 @@ func (c *Client) CreateDestination(destination Destination) (*Destination, error
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
                 return nil, err
         }
 
@@ -145,6 +151,7 @@ func (c *Client) UpdateDestination(destinationId string, destination Destination
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
                 return nil, err
         }
 
