@@ -2,6 +2,7 @@ package rudderclient
 
 import (
 	"fmt"
+	"strings"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -37,13 +38,13 @@ func NewClient(workspaceHost, workspaceToken, schemaHost, schemaToken *string) (
 		HTTPClient: httpClient,
 		WorkspaceHost: HostAccessStruct{
 			HTTPClient: httpClient,
-			Url:        *workspaceHost,
+			Url:        strings.Trim(*workspaceHost, "/"),
 			Token:      *workspaceToken,
 			AuthKind:   TokenAuth,
 		},
 		SchemaHost: HostAccessStruct{
 			HTTPClient: httpClient,
-			Url:        *schemaHost,
+			Url:        strings.Trim(*schemaHost, "/"),
 			Token:      *schemaToken,
 			AuthKind:   BasicAuth,
 		},
