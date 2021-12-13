@@ -22,14 +22,14 @@ func (c *Client) GetConnections() ([]Connection, error) {
                 return nil, err
         }
 
-        connections := []Connection{}
-        err = json.Unmarshal(body, &connections)
+        apiResponse := ApiResponseWrapper{}
+        err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
-        return connections, nil
+        return apiResponse.Connections, nil
 }
 
 // FilterConnections - Returns list of connections, filtered by source and destination.
@@ -43,10 +43,10 @@ func (c *Client) FilterConnections(sourceId string, destinationId string) ([]Con
 
         // Add source and destination ids from query.
         q := req.URL.Query()
-        if (sourceId == ""){
+        if (sourceId != ""){
                 q.Add("sourceId", sourceId)
         }
-        if (destinationId == ""){
+        if (destinationId != ""){
                 q.Add("destinationId", destinationId)
         }
         req.URL.RawQuery = q.Encode()
@@ -56,14 +56,14 @@ func (c *Client) FilterConnections(sourceId string, destinationId string) ([]Con
                 return nil, err
         }
 
-        connections := []Connection{}
-        err = json.Unmarshal(body, &connections)
+        apiResponse := ApiResponseWrapper{}
+        err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
-        return connections, nil
+        return apiResponse.Connections, nil
 }
 
 // GetConnection - Returns connection
@@ -84,7 +84,7 @@ func (c *Client) GetConnection(connectionID string) (*Connection, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
@@ -117,7 +117,7 @@ func (c *Client) CreateConnection(connection Connection) (*Connection, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
@@ -146,7 +146,7 @@ func (c *Client) UpdateConnection(connectionId string, connection Connection) (*
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 

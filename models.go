@@ -69,4 +69,5 @@ type ApiResponseWrapper struct {
 	Destination   Destination                              `json:"destination,omitempty"`
 	Destinations  []Destination                            `json:"destinations,omitempty"`
 	Connection    Connection                               `json:"connection,omitempty"`
+	Connections   []Connection                             `json:"connections,omitempty"`
 }

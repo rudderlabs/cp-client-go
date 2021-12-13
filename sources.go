@@ -23,14 +23,14 @@ func (c *Client) GetSources() ([]Source, error) {
                 return nil, err
         }
 
-        sources := []Source{}
-        err = json.Unmarshal(body, &sources)
+        apiResponse := ApiResponseWrapper{}
+        err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
-        return sources, nil
+        return apiResponse.Sources, nil
 }
 
 // FilterSources - Returns list of sources, filtered by search params.
@@ -44,10 +44,10 @@ func (c *Client) FilterSources(tYpe string, name string) ([]Source, error) {
 
         // Add type and name ids from query.
         q := req.URL.Query()
-        if (tYpe == ""){
+        if (tYpe != ""){
                 q.Add("type", tYpe)
         }
-        if (name == ""){
+        if (name != ""){
                 q.Add("name", name)
         }
         req.URL.RawQuery = q.Encode()
@@ -57,14 +57,14 @@ func (c *Client) FilterSources(tYpe string, name string) ([]Source, error) {
                 return nil, err
         }
 
-        sources := []Source{}
-        err = json.Unmarshal(body, &sources)
+        apiResponse := ApiResponseWrapper{}
+        err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
-        return sources, nil
+        return apiResponse.Sources, nil
 }
 
 // GetSource - Returns source
@@ -85,7 +85,7 @@ func (c *Client) GetSource(sourceID string) (*Source, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
@@ -118,7 +118,7 @@ func (c *Client) CreateSource(source Source) (*Source, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
@@ -150,7 +150,7 @@ func (c *Client) UpdateSource(sourceId string, source Source) (*Source, error) {
         apiResponse := ApiResponseWrapper{}
         err = json.Unmarshal(body, &apiResponse)
         if err != nil {
-                log.Println("UnMarshalling server response failed. Url=", url, "body=", body)
+                log.Println("UnMarshalling server response failed. Url=", url, "body=", string(body))
                 return nil, err
         }
 
