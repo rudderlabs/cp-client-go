@@ -36,7 +36,9 @@ type DestinationDefinition struct {
 type Source struct {
         ID            string                                   `json:"id,omitempty"`
         Name          string                                   `json:"name"`
-        Type          string                                   `json:"type"`
+        Type          string                                   `json:"type,omitempty"`
+        IsEnabled     bool                                     `json:"enabled,omitempty"`
+        IsDeleted     bool                                     `json:"deleted,omitempty"`
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
@@ -48,6 +50,8 @@ type Destination struct {
         ID            string                                   `json:"id,omitempty"`
         Name          string                                   `json:"name"`
         Type          string                                   `json:"type,omitempty"`
+        IsEnabled     bool                                     `json:"enabled,omitempty"`
+        IsDeleted     bool                                     `json:"deleted,omitempty"`
         CreatedAt     time.Time                                `json:"createdAt"`
         UpdatedAt     time.Time                                `json:"updatedAt"`
 
@@ -59,6 +63,8 @@ type Connection struct {
         ID            string                                   `json:"id,omitempty"`
         SourceID      string                                   `json:"sourceId,omitempty"`
         DestinationID string                                   `json:"destinationId,omitempty"`
+        IsEnabled     bool                                     `json:"enabled,omitempty"`
+        IsDeleted     bool                                     `json:"deleted,omitempty"`
 }
 
 // API responses we handle are unmarshalled into this object first -
